@@ -17,7 +17,6 @@ import com.studygroupzs.virtuallibrary.model.User;
 import com.studygroupzs.virtuallibrary.repository.UserRepository;
 import com.studygroupzs.virtuallibrary.service.UserService;
 
-import feign.Response;
 import jakarta.validation.Valid;
 
 @RestController
@@ -61,7 +60,7 @@ public class UserController {
 	public ResponseEntity<User> postUser(@RequestBody @Valid User user) {
 
 		return userService.createUser(user)
-				.map(response -> ResponseEntity.status(response))
+				.map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
 				.orElse(ResponseEntity.badRequest().build());
 	}
 	

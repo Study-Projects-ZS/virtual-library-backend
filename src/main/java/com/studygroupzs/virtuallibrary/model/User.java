@@ -28,5 +28,5 @@ public class User {
 	
 	@NotBlank(message = "The attribute password is mandatory")
 	@Size(min = 8, message = "the password must be at least 8 characters long")
-	private String passaword;
+	private String password;
 }
