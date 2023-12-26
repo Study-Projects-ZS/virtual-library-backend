@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -26,6 +27,6 @@ public class User {
 	private String username;
 	
 	@NotBlank(message = "The attribute password is mandatory")
+	@Size(min = 8, message = "the password must be at least 8 characters long")
 	private String passaword;
-	
 }
