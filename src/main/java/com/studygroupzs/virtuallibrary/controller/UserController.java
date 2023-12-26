@@ -61,7 +61,7 @@ public class UserController {
 	public ResponseEntity<User> postUser(@RequestBody @Valid User user) {
 
 		return userService.createUser(user)
-				.map(response -> ResponseEntity.status(response))
+				.map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
 				.orElse(ResponseEntity.badRequest().build());
 	}
 	

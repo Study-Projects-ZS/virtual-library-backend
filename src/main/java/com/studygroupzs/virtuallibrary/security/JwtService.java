@@ -6,8 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.bouncycastle.jcajce.BCFKSLoadStoreParameter.SignatureAlgorithm;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtService {
@@ -53,7 +59,6 @@ public class JwtService {
 					.setClaims(claims)
 					.setSubject(userName)
 					.setIssuedAt(new Date(System.currentTimeMillis()))
-					// Tempo de expiração 1hr
 					.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
 					.signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
 	}
