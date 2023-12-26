@@ -17,7 +17,6 @@ import com.studygroupzs.virtuallibrary.model.User;
 import com.studygroupzs.virtuallibrary.repository.UserRepository;
 import com.studygroupzs.virtuallibrary.service.UserService;
 
-import feign.Response;
 import jakarta.validation.Valid;
 
 @RestController
