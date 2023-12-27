@@ -57,10 +57,7 @@ public class BasicSecurityConfig {
 				.csrf(csrf -> csrf.disable()).cors(withDefaults());
 
 		http.authorizeHttpRequests(
-				(auth) -> auth.requestMatchers("/users/login").permitAll()
-								.requestMatchers("/books").permitAll()
-								.requestMatchers("/users/create").permitAll()
-								.requestMatchers("/error/**").permitAll()
+				(auth) -> auth.requestMatchers("/users/login", "/books/**", "/categories/**", "/users/create", "/error/**").permitAll()
 								.requestMatchers(HttpMethod.OPTIONS).permitAll()
 								.anyRequest().authenticated())
 				.authenticationProvider(authenticationProvider())

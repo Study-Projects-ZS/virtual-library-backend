@@ -48,8 +48,8 @@ public class BookController {
 	}
 	
 	@GetMapping("/author/{author}")
-	public ResponseEntity<List<Book>> getByAuthor(@PathVariable String title){
-		return ResponseEntity.ok(bookRepository.findAllByTitleContainingIgnoreCase(title));
+	public ResponseEntity<List<Book>> getByAuthor(@PathVariable String author){
+		return ResponseEntity.ok(bookRepository.findAllByTitleContainingIgnoreCase(author));
 	}
 	
 	@PostMapping("/create")

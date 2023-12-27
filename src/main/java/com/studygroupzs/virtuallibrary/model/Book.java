@@ -1,6 +1,8 @@
 package com.studygroupzs.virtuallibrary.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ public class Book {
 	
 	private String isbn;
 	
-	private Date yearOfPublication;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate yearOfPublication;
 
 }
