@@ -28,7 +28,6 @@ public class BasicSecurityConfig {
 
 	@Bean
 	UserDetailsService userDetailsService() {
-
 		return new UserDetailsServiceImpl();
 	}
 
