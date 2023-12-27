@@ -64,4 +64,9 @@ public class UserController {
 				.orElse(ResponseEntity.badRequest().build());
 	}
 	
+	@PostMapping("/logar")
+	public ResponseEntity<User> authenticateUser(@RequestBody @Valid User user){
+		return userService.authenticateUser(null)
+	}
+	
 }
