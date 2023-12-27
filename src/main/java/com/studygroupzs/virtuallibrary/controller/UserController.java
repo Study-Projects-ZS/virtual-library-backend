@@ -1,6 +1,7 @@
 package com.studygroupzs.virtuallibrary.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,11 +10,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studygroupzs.virtuallibrary.model.User;
+import com.studygroupzs.virtuallibrary.model.UserLogin;
 import com.studygroupzs.virtuallibrary.repository.UserRepository;
 import com.studygroupzs.virtuallibrary.service.UserService;
 
@@ -64,4 +67,17 @@ public class UserController {
 				.orElse(ResponseEntity.badRequest().build());
 	}
 	
+	@PostMapping("/login")
+	public ResponseEntity<UserLogin> authenticateUser(@RequestBody @Valid Optional<UserLogin> userLogin){
+		return userService.authenticateUser(userLogin)
+				.map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
+				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<User> putUser(@RequestBody @Valid User user){
+		return userService.updateUser(user)
+				.map(response -> ResponseEntity.status(HttpStatus.OK).body(response))
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+	}
 }
