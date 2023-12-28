@@ -1,9 +1,15 @@
 package com.studygroupzs.virtuallibrary.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -29,4 +35,12 @@ public class User {
 	@NotBlank(message = "The attribute password is mandatory")
 	@Size(min = 8, message = "the password must be at least 8 characters long")
 	private String password;
+	
+	@ManyToMany
+    @JoinTable(
+        name = "user_book",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book> books = new HashSet<>();
 }
