@@ -38,21 +38,19 @@ public class UserController {
 		return ResponseEntity.ok(userRepository.findAll());
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id) {
 		return userRepository.findById(id)
 				.map(response -> ResponseEntity.ok(response))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@GetMapping("/{name}")
-	public ResponseEntity<User> getByName(@PathVariable String name) {
-		return userRepository.findByName(name)
-				.map(response -> ResponseEntity.ok(response))
-				.orElse(ResponseEntity.notFound().build());
+	@GetMapping("/name/{name}")
+	public ResponseEntity<Optional<List<User>>> getByName(@PathVariable String name) {
+		return ResponseEntity.ok(userRepository.findByNameContainingIgnoreCase(name));
 	}
 	
-	@GetMapping("/{username}")
+	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getByUsername(@PathVariable String username) {
 		return userRepository.findByUsername(username)
 				.map(response -> ResponseEntity.ok(response))

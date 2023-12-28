@@ -48,7 +48,7 @@ public class UserService {
 			if ((findUser.isPresent()) && (findUser.get().getId() != user.getId()))
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists!", null);
 
-			user.setPassword(null);
+			user.setPassword(encryptPassword(user.getPassword()));
 
 			return Optional.ofNullable(userRepository.save(user));
 
