@@ -4,9 +4,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.studygroupzs.virtuallibrary.apiresponse.GoogleBooksApiResponse;
+
 @FeignClient(name="googleBooksClient", url="https://www.googleapis.com/books/v1")
 public interface GoogleBooksClient {
 	
 	@GetMapping("/volumes")
-	Object searchBooks(@RequestParam("q") String query, @RequestParam("key") String apiKey);
+    GoogleBooksApiResponse getBookInfoByIsbn(@RequestParam("q") String isbn);
 }

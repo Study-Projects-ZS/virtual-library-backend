@@ -1,5 +1,6 @@
 package com.studygroupzs.virtuallibrary.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,9 +28,16 @@ public class Book {
 	@NotBlank(message = "The author name is mandatory")
 	private String author;
 	
+	@NotBlank(message = "The isbn is mandatory")
 	private String isbn;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate yearOfPublication;
+    private Integer yearOfPublication;
+	
+	private String description;
+	
+	private BigDecimal rating;
+	
+	private String cover;
 
 }
