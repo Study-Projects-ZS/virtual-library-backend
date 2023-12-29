@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.studygroupzs.virtuallibrary.model.Book;
 
-import org.springframework.data.repository.query.Param;
-
 public interface BookRepository extends JpaRepository<Book, Long> {
-	public List<Book> findAllByTitleContainingIgnoreCase(@Param("title") String title);
-	public List<Book> findAllByAuthorContainingIgnoreCase(@Param("author") String author);
+	public List<Book> findAllByTitleContainingIgnoreCase(String title);
+	public List<Book> findAllByAuthorContainingIgnoreCase(String author);
 }

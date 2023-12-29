@@ -26,9 +26,9 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(length = 50)
-	@Size(min = 1, max = 100, message = "The Description attibrute is mandatory!")
-	@NotBlank
+	@Column(length = 500)
+	@Size(min = 1)
+	@NotBlank(message = "The attibrute description is mandatory!")
 	private String description;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.REMOVE)

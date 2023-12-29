@@ -29,7 +29,7 @@ public class User {
 	private String name;
 	
 	@NotBlank(message = "The attribute username is mandatory")
-	@Email
+	@Email(message = "Please provide a valid email address")
 	private String username;
 	
 	@NotBlank(message = "The attribute password is mandatory")
