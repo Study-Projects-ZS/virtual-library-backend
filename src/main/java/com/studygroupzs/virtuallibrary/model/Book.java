@@ -27,17 +27,17 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank(message = "The title is mandatory")
+	@NotBlank(message = "The attribute title is mandatory")
 	private String title;
 	
-	@NotBlank(message = "The author name is mandatory")
+	@NotBlank(message = "The attibute author name is mandatory")
 	private String author;
 	
-	@NotBlank(message = "The isbn is mandatory")
+	@NotBlank(message = "The attibrute isbn is mandatory")
 	private String isbn;
 	
+	// Data obtained from API
 	@JsonFormat(pattern = "yyyy-MM-dd")
-
     private String yearOfPublication;
 	
 	@Column(length = 5000)
@@ -47,6 +47,7 @@ public class Book {
 	
 	private String cover;
 
+	// Relationship Data
 	@Column(columnDefinition = "integer default 0")
 	private int numberOfLikes;
 	
