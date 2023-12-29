@@ -78,34 +78,45 @@ public class BookController {
 	public ResponseEntity<Book> registerBook(@Valid @RequestBody Book book) {
 		Book savedBook = bookRepository.save(book);
 
-		// Realiza a chamada à API do Google Books usando o Feign Client
-		GoogleBooksApiResponse response = googleBooksClient.getBookInfoByIsbn(book.getIsbn());
-
-		if (response != null && response.getItems() != null && !response.getItems().isEmpty()) {
-			GoogleBookInfo bookInfo = response.getItems().get(0).getVolumeInfo();
-
-			// Extrai as informações adicionais do livro da resposta da API
-			String description = bookInfo.getDescription();
-			Double rating = bookInfo.getAverageRating();
-			String coverUrl = bookInfo.getImageLinks() != null ? bookInfo.getImageLinks().getThumbnail() : null;
-			String yearOfPublication = bookInfo.getPublishedDate(); // Obtendo o ano de publicação
-
-			// Atualiza as informações adicionais do livro no registro salvo anteriormente
-			savedBook.setDescription(description);
-			try {
-				savedBook.setRating(BigDecimal.valueOf(rating)); // Convertendo para BigDecimal
-			} catch (NullPointerException e) {
-				System.out.println("NullPoint");
-			}
-
-			savedBook.setCover(coverUrl);
-			savedBook.setYearOfPublication(yearOfPublication); // Definindo o ano de publicação
-
-			// Persiste as informações adicionais no banco de dados
+		if (savedBook != null) {
+			enrichBookInformation(savedBook);
 			savedBook = bookRepository.save(savedBook);
 		}
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
+	}
+
+	private void enrichBookInformation(Book book) {
+		// Realiza a chamada à API do Google Books usando o Feign Client
+		GoogleBooksApiResponse response = googleBooksClient.getBookInfoByIsbn(book.getIsbn());
+
+		// Checa se o isbn retornou uma lista GoogleBookItem válida
+		if (response != null && !response.getItems().isEmpty()) {
+			// Obtém o primeiro objeto GoogleBookInfo da lista de items na resposta da API
+			// do Google Books
+			GoogleBookInfo bookInfo = response.getItems().get(0).getVolumeInfo();
+
+			// Extrai da resposta da API as informações adicionais do livro e atualiza o
+			// registro do livro salvo anteriormente
+			book.setDescription(bookInfo.getDescription());
+			book.setCover(getCoverUrl(bookInfo));
+			book.setYearOfPublication(bookInfo.getPublishedDate());
+			
+			// Tenta converter e definir o rating para BigDecimal
+			try {
+				Double rating = bookInfo.getAverageRating();
+				if (rating != null) {
+					book.setRating(BigDecimal.valueOf(rating));
+				}
+			} catch (NullPointerException e) {
+				System.out.println("Não é possível converter um objeto nulo para BigDecimal");
+			}
+		}
+	}
+	
+	// Define a capa do livro (se disponível)
+	private String getCoverUrl(GoogleBookInfo bookInfo) {
+		return (bookInfo.getImageLinks() != null) ? bookInfo.getImageLinks().getThumbnail() : null;
 	}
 
 	@PutMapping("/update")
