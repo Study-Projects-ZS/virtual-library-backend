@@ -40,6 +40,7 @@ public class Book {
 
     private String yearOfPublication;
 	
+	@Column(length = 5000)
 	private String description;
 	
 	private BigDecimal rating;
