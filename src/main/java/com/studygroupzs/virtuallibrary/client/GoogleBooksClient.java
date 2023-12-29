@@ -11,4 +11,5 @@ public interface GoogleBooksClient {
 	
 	@GetMapping("/volumes")
     GoogleBooksApiResponse getBookInfoByIsbn(@RequestParam("q") String isbn);
+
 }

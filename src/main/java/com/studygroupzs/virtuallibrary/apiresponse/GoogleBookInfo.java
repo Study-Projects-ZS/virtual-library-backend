@@ -7,5 +7,5 @@ public class GoogleBookInfo {
 	private String description;
     private Double averageRating;
     private GoogleBookImageLinks imageLinks;
-    private Integer publishedDate; // Ano de publicação
+    private String publishedDate; // Ano de publicação
 }

@@ -38,7 +38,7 @@ public class Book {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 
-    private Integer yearOfPublication;
+    private String yearOfPublication;
 	
 	private String description;
 	
