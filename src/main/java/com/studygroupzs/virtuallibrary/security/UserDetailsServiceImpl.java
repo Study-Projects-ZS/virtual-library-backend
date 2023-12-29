@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (user.isPresent())
 			return new UserDetailsImpl(user.get());
 		else
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User not found: " + userName);
 			
 	}
 }

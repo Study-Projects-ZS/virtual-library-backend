@@ -58,6 +58,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }catch(ExpiredJwtException | UnsupportedJwtException | MalformedJwtException 
                 | SignatureException | ResponseStatusException e){
             response.setStatus(HttpStatus.FORBIDDEN.value());
+            response.getWriter().write("{'error': 'Invalid or expired token'}");
             return;
         }
     }
