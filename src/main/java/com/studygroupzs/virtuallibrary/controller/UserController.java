@@ -41,7 +41,7 @@ public class UserController {
 	@GetMapping("/id/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id) {
 		return userRepository.findById(id)
-				.map(response -> ResponseEntity.ok(response))
+				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
@@ -53,7 +53,7 @@ public class UserController {
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getByUsername(@PathVariable String username) {
 		return userRepository.findByUsername(username)
-				.map(response -> ResponseEntity.ok(response))
+				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
 	

@@ -46,10 +46,8 @@ public class BookController {
 
 	@GetMapping("/search")
 	public ResponseEntity<GoogleBooksApiResponse> searchBooks(@RequestParam("query") String query) {
-		// Aqui estamos chamando o BookService para buscar informações do Google Books.
+		// Here we are calling BookService to fetch information from Google Books.
 		GoogleBooksApiResponse response = bookService.findBooks(query);
-
-		// Agora podemos usar essas informações para mostrar ao usuário!
 		return ResponseEntity.ok(response);
 	}
 
@@ -58,10 +56,10 @@ public class BookController {
 		return ResponseEntity.ok(bookRepository.findAll());
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<Book> getById(@PathVariable Long id) {
-		return bookRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
-				.orElse(ResponseEntity.notFound().build()); // http status not found
+		return bookRepository.findById(id).map(ResponseEntity::ok)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ID: " + id + " not found!"));
 	}
 
 	@GetMapping("/title/{title}")
@@ -75,7 +73,7 @@ public class BookController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<Book> registerBook(@Valid @RequestBody Book book) {
+	public ResponseEntity<Book> postBook(@Valid @RequestBody Book book) {
 		Book savedBook = bookRepository.save(book);
 
 		if (savedBook != null) {
@@ -101,7 +99,7 @@ public class BookController {
 			book.setDescription(bookInfo.getDescription());
 			book.setCover(getCoverUrl(bookInfo));
 			book.setYearOfPublication(bookInfo.getPublishedDate());
-			
+
 			// Tenta converter e definir o rating para BigDecimal
 			try {
 				Double rating = bookInfo.getAverageRating();
@@ -113,22 +111,21 @@ public class BookController {
 			}
 		}
 	}
-	
+
 	// Define a capa do livro (se disponível)
 	private String getCoverUrl(GoogleBookInfo bookInfo) {
 		return (bookInfo.getImageLinks() != null) ? bookInfo.getImageLinks().getThumbnail() : null;
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<Book> updateBook(@RequestBody @Valid Book book) {
+	public ResponseEntity<Book> putBook(@RequestBody @Valid Book book) {
 		return ResponseEntity.status(HttpStatus.OK).body(bookRepository.save(book));
 	}
 
 	@DeleteMapping("/{id}")
 	public void deleteBook(@PathVariable Long id) {
-		Optional<Book> book = bookRepository.findById(id);
-		if (book.isEmpty())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		bookRepository.findById(id)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with ID " + id + " not found"));
 
 		bookRepository.deleteById(id);
 	}

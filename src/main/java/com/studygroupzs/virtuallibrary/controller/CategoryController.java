@@ -34,14 +34,14 @@ public class CategoryController {
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Category> getById(@PathVariable Long id){
 		return categoryRepository.findById(id)
-				.map(response -> ResponseEntity.ok(response))
+				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	@GetMapping("/description/{description}")
 	public ResponseEntity<Category> getByDescription(@PathVariable String description){
 		return categoryRepository.findByDescription(description)
-				.map(response -> ResponseEntity.ok(response))
+				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
